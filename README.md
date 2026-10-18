@@ -6,8 +6,8 @@ This project is a Windows-oriented port of [`claude-or`](https://github.com/dari
 The goal is to keep the convenient alias workflow while supporting a native Claude Code
 installation, PowerShell and Git Bash.
 
-> **Status:** Work in progress. The repository currently contains the project documentation;
-> the Windows launcher and alias manager are being developed.
+> **Status:** Early Windows port. The PowerShell launcher, `.cmd` wrapper, JSON aliases and
+> OpenRouter key manager are included; more compatibility testing is still needed.
 
 ## Why this project exists
 
@@ -15,11 +15,11 @@ Claude Code normally uses the Anthropic or claude.ai authentication configured o
 `win-claude-or` is intended to let you start one Claude Code process with an OpenRouter model,
 without changing your normal Claude Code setup.
 
-The planned workflow looks like this:
+The workflow looks like this:
 
 ```powershell
-ccds -p "Explain this repository"
-ccqwen --resume
+win-claude-or ccds -p "Explain this repository"
+win-claude-or ccqwen --resume
 win-claude-or --list
 ```
 
@@ -105,8 +105,23 @@ git clone https://github.com/dariusz-przada/win-claude-or.git
 cd win-claude-or
 ```
 
-The Windows launcher is not released yet. Until the port is implemented, this repository should
-be treated as the project home and documentation for the Windows version.
+Run the launcher from the checkout:
+
+```powershell
+.\win-claude-or.cmd --list
+.\win-claude-or.cmd --sync
+```
+
+The launcher stores aliases and encrypted user-scoped keys under
+`C:\Users\<your-user>\.config\claude-or\`. Add the alias directory below to your user `PATH` if
+you want to run commands such as `ccds` directly:
+
+```text
+C:\Users\<your-user>\.local\bin
+```
+
+The `.cmd` wrapper works from PowerShell, Command Prompt and Git Bash. It uses PowerShell 7 when
+available and falls back to Windows PowerShell.
 
 ## Design goals
 
@@ -132,11 +147,10 @@ aims to preserve.
 
 The first implementation steps are:
 
-1. Add a Windows launcher (`win-claude-or.ps1`).
-2. Add `aliases.json` validation and model selection.
-3. Add safe key storage and key switching.
-4. Add command shims or PowerShell functions for aliases such as `ccds` and `ccqwen`.
-5. Test with the native Claude Code executable on Windows.
+1. Improve compatibility with different Claude Code and PowerShell versions.
+2. Add automated Windows tests for aliases, key storage and command shims.
+3. Add a proper release/update channel for the Windows launcher.
+4. Test with the native Claude Code executable on Windows.
 
 ## License
 

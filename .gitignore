@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local configuration and secrets
+api_key
+.env
+.config/
+keys.json
+.test-*/
